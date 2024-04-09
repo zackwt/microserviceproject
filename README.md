@@ -18,7 +18,7 @@ Utilizing the previously described stack and requirements I will be building a F
 
 # Data Model
 | User           |Product    |Category   |Order     |OrderItem|Cart|CartItem|Payment|Shipping|Review|
-|----------------|-----------|-----------|----------|
+|----------------|-----------|-----------|----------|---------|----|--------|-------|--------|------|
 |ID (PK)         |ID (PK)    |ID (PK)    |ID (PK)   |
 |Username        |Name       |Name       |Order Date|
 |Password        |Description|Parent     |User (FK) |
