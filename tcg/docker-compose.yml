@@ -2,6 +2,26 @@
 
 version: '3.8'
 services:
+
+  database:
+    image: mysql
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   backend:
     build: ./backend
     volumes:
@@ -9,7 +29,14 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DEBUG=1  # Set to 0 in production
+      DATABASE_HOST: mysql-db
+      DATABASE_USER: ${MYSQL_USER}
+      DATABASE_PASSWORD: ${MYSQL_PASSWORD}
+      DATABASE_NAME: ${MYSQL_DATABASE}
+    depends_on:
+      database:
+        condition: service_healthy
+      
 
   frontend:
     build: ./frontend
@@ -20,3 +47,7 @@ services:
       - "3000:3000"
     depends_on:
       - backend
+
+volumes:
+  mysql-data:
+    driver: local
