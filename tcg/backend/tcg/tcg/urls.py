@@ -15,12 +15,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include
+from django.contrib import admin
 from rest_framework.routers import DefaultRouter
 from tcgbackend.views import ItemViewSet
+from tcgbackend.views import ProductList
+from tcgbackend import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 router = DefaultRouter()
 router.register(r'items', ItemViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
-]
+    path('api/products/', ProductList.as_view(), name='api_product_list'),
+    #path('products/', views.product_list, name='product_list'),
+    path('admin/', admin.site.urls),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

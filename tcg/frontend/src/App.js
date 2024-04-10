@@ -5,6 +5,7 @@ import NavBar from './components/NavBar/NavBar';
 import Home from './components/Home/Home';
 import About from './components/About/About';
 import Contact from './components/Contact/Contact';
+import Products from './components/Products/Products';
 
 function App() {
   const [view, setView] = useState('home'); // 'home' is the default view
@@ -23,29 +24,20 @@ function App() {
     case 'contact':
       ViewComponent = Contact;
       break;
+    case 'products':
+      ViewComponent = Products;
+      break;
     default:
       ViewComponent = Home;
       break;
   }
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      const result = await axios('http://localhost:8000/api/items/');
-      setItems(result.data);
-    };
-    fetchItems();
-  }, []);
-
   return (
     
     <div className="App">
       <header className="App-header">
-
         <NavBar setView={setView} />
         <ViewComponent />
-        {items.map(item => (
-        <div key={item.id}>{item.name}</div>
-      ))}
       </header>
     </div>
   );

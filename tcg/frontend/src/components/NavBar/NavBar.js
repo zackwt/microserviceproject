@@ -5,6 +5,7 @@ function NavBar({ setView }) {
     <nav>
       <button onClick={() => setView('home')}>Home</button>
       <button onClick={() => setView('about')}>About</button>
+      <button onClick={() => setView('products')}>Products</button>
       <button onClick={() => setView('contact')}>Contact</button>
     </nav>
   );
